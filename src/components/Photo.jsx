@@ -1,10 +1,10 @@
 import React from 'react';
 
-const Photo = ({data}) =>{
+const Photo = ({url}) =>{
 //webformatURL
     return(
         <li>
-            <img src= {data.url} key = {data.key} alt="" />
+            <img src= {url} alt="" />
         </li>
     )
 }

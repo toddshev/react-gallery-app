@@ -23,3 +23,6 @@ dist-ssr
 *.sln
 *.sw?
 config.js
+src/components/Photo.js
+src/components/PhotoList.js
+src/components/Search.js

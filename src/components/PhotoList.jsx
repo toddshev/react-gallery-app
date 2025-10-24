@@ -7,14 +7,14 @@ import NoResults from './NoResults.jsx';
 const PhotoList = ({data}) =>{
     const results = data;
     let photos;
-    if (results.length >0){
+    if (results){
         photos = results.map(photo =>
              <Photo 
-                url={results.userImageURL} 
+                url={photo.previewURL} 
                 key= {photo.id} />)
-    } else {
-        photos = <NoResults />
-    }
+     } else {
+         photos = <NoResults />
+     }
 
     return(
         <div className="photo-container">
