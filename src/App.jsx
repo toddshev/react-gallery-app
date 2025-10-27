@@ -14,26 +14,33 @@ function App() {
   const [photos, setPhotos] = useState([]);
   const [query, setQuery] = useState('cats');
   const [loading, setLoading] = useState(true);
-  const[catImg, setCatImg] = useState([]);
-  const[dogImg, setDogImg] = useState([]);
-  const[computerImg, setComputerImg] = useState([]);
+  const [catImg, setCatImg] = useState([]);
+  const [dogImg, setDogImg] = useState([]);
+  const [computerImg, setComputerImg] = useState([]);
+
 
   //Re-run API call when query state/value changes
   useEffect( () => {
+    if (!dogImg.length){
+      fetchData('dogs');
+    }
+    if (!computerImg.length){
+      fetchData('computers');
+    } 
     fetchData(query);
-    fetchData('cats');
-    fetchData('dogs');
-    fetchData('computers');
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   },[query]);
       
+  const changeQuery = (searchText) =>{
+    setQuery(searchText);
+    }
 
   //Fetches images when query value changes - either search or button
   //Sets state of photo array to returned image objects 
   const fetchData = (searchText) =>{
     setLoading(true);
     let activeFetch = true;
-    setQuery(searchText);
-    
+      
     fetch(`https://pixabay.com/api/?key=${apiKey}&q=${searchText}`)
         .then(response => response.json())
         .then (responseData => {
@@ -41,34 +48,33 @@ function App() {
             if (searchText ==='cats'){
               setCatImg(responseData.hits);
             } else if (searchText === 'dogs'){
-              setDogImg(responseData.hits);
-            } else if (searchText ==='computers'){
-              setComputerImg(responseData.hits);
-            }else {
+                setDogImg(responseData.hits);
+            } else if (searchText === 'computers'){
+                setComputerImg(responseData.hits);
+            } else {
               setPhotos(responseData.hits);
             }
+          setLoading(false);
           }
-           setLoading(false);
         })
         .catch(error => console.log('Error fetching and parsing data',error))      
         return () => {activeFetch= false}
     }
 
-console.log(query);
 //Renders search and nav (every page), sets routes for buttons, search, and not found
   return (
     <>
-      <Search changeQuery= {fetchData} /> 
+      <Search changeQuery= {changeQuery}  /> 
       <Nav />
 
       {loading ? <p>Loading...</p> : undefined }
 
       <Routes>
         <Route path="/" element={<Navigate to='/cats'></Navigate>} />
-        <Route path= "cats" element={<PhotoList data= {catImg} query= 'cats' />} />
-        <Route path="dogs" element={<PhotoList data= {dogImg} query= 'dogs' />} />
-        <Route path="computers" element={<PhotoList data= {computerImg} query= 'computers' />} />
-        <Route path= "search/:query" element={<PhotoList data= {photos} query={query} />} /> 
+        <Route path= "cats" element={<PhotoList data= {catImg} title= 'cats' />} />
+        <Route path="dogs" element={<PhotoList data= {dogImg} title= 'dogs' />} />
+        <Route path="computers" element={<PhotoList data= {computerImg} title= 'computers' />} />
+        <Route path= "search/:query" element={<PhotoList data= {photos} title= {query}  />} /> 
         <Route path ="/*" element={<NotFound />} />
       </Routes>
     </>
