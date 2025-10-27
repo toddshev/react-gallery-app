@@ -1,19 +1,20 @@
 import React from "react";
 import {NavLink} from 'react-router-dom';
 
-const Nav = ({btnClick}) => {
+//Create Nav list with 3 buttons to click, return value from item clicked/path to app.jsx
+const Nav = () => {
 
   return (
     <nav className="main-nav">
       <ul>
         <li>
-        <NavLink onClick={() => btnClick("cats")} to="/cats">Cats</NavLink>
+        <NavLink to="/cats">Cats</NavLink>
         </li>
         <li>
-          <NavLink onClick={() =>btnClick("dogs")} to="/dogs">Dogs</NavLink>
+          <NavLink to="/dogs">Dogs</NavLink>
         </li>
         <li>
-          <NavLink onClick={() =>btnClick("computers")} to="/computers">Computers</NavLink>
+          <NavLink to="/computers">Computers</NavLink>
         </li>
       </ul>
     </nav>

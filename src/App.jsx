@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import {Routes, Route, Navigate} from 'react-router-dom';
+//Add in useRef if needed
 
 //Load components and key
 import Nav from './components/Nav.jsx'
@@ -13,21 +14,22 @@ function App() {
   const [photos, setPhotos] = useState([]);
   const [query, setQuery] = useState('cats');
   const [loading, setLoading] = useState(true);
-  
+  const[catImg, setCatImg] = useState([]);
+  const[dogImg, setDogImg] = useState([]);
+  const[computerImg, setComputerImg] = useState([]);
+
   //Re-run API call when query state/value changes
   useEffect( () => {
-    handleQueryChange(query);
+    fetchData(query);
+    fetchData('cats');
+    fetchData('dogs');
+    fetchData('computers');
   },[query]);
       
-  //Gets value from nav button click and updates value/state of query
-  //Prevents having to run fetch and handleQueryChange multiple times
-  const handleClick = (btnText) => {
-    setQuery(btnText);
-  }
 
   //Fetches images when query value changes - either search or button
   //Sets state of photo array to returned image objects 
-  const handleQueryChange = (searchText) =>{
+  const fetchData = (searchText) =>{
     setLoading(true);
     let activeFetch = true;
     setQuery(searchText);
@@ -36,35 +38,40 @@ function App() {
         .then(response => response.json())
         .then (responseData => {
           if (activeFetch){
+            if (searchText ==='cats'){
+              setCatImg(responseData.hits);
+            } else if (searchText === 'dogs'){
+              setDogImg(responseData.hits);
+            } else if (searchText ==='computers'){
+              setComputerImg(responseData.hits);
+            }else {
               setPhotos(responseData.hits);
-              setLoading(false);
+            }
           }
+           setLoading(false);
         })
         .catch(error => console.log('Error fetching and parsing data',error))      
         return () => {activeFetch= false}
     }
 
-//  const title = document.getElementsByTagName('title')[0].innerHTML;
-//  console.log(title);
-    
+console.log(query);
 //Renders search and nav (every page), sets routes for buttons, search, and not found
   return (
     <>
-      <Search changeQuery= {handleQueryChange} /> 
-      <Nav btnClick= {handleClick}/>
+      <Search changeQuery= {fetchData} /> 
+      <Nav />
 
       {loading ? <p>Loading...</p> : undefined }
 
       <Routes>
-        <Route path="/" element={<Navigate to='/search'></Navigate>} />
-        <Route path="cats" element={<PhotoList data={photos} />} />
-        <Route path="dogs" element={<PhotoList data= {photos} />} />
-        <Route path="computers" element={<PhotoList data= {photos} />} />
-        <Route path= "search/:query" element={<PhotoList data= {photos} />} /> 
-        <Route path ="*" element={<NotFound />} />
+        <Route path="/" element={<Navigate to='/cats'></Navigate>} />
+        <Route path= "cats" element={<PhotoList data= {catImg} query= 'cats' />} />
+        <Route path="dogs" element={<PhotoList data= {dogImg} query= 'dogs' />} />
+        <Route path="computers" element={<PhotoList data= {computerImg} query= 'computers' />} />
+        <Route path= "search/:query" element={<PhotoList data= {photos} query={query} />} /> 
+        <Route path ="/*" element={<NotFound />} />
       </Routes>
     </>
-
   )
 };
 

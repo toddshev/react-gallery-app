@@ -1,10 +1,13 @@
 import React, {useRef} from "react";
 import {useNavigate} from 'react-router-dom';
 
+//Create search bar for app.jsx
 const Search = (props) => {
   const searchText = useRef(null);
   let navigate = useNavigate();
 
+  //Event listener for when the search button is clicked
+  //Sends query text value back to app.jsx
   const handleSubmit = (e) =>{
     e.preventDefault();
     let query = searchText.current.value;
@@ -14,6 +17,7 @@ const Search = (props) => {
     e.currentTarget.reset();
   }
 
+  //Render search bar to the page, pass query change back up to app.jsx
   return (
     <form className="search-form" onSubmit={e=>handleSubmit(e)}>
       <input type="search" ref={searchText} name="search" placeholder="Search" required />
