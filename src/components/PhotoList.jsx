@@ -14,7 +14,7 @@ const PhotoList = ({data, title, changeQuery}) =>{
     useEffect( () =>{
         if (query){
             if (query !== title){
-                changeQuery(title);
+                changeQuery(query);
             }
         }
     },);
