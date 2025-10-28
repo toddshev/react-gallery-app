@@ -4,21 +4,16 @@ import {useParams} from 'react-router-dom';
 import Photo from './Photo.jsx';
 import NoResults from './NoResults.jsx';
 
-
 //Map array of photos and save as jsx expression
 const PhotoList = ({data, title, changeQuery}) =>{
     const results = data;
     const {query} = useParams();
     let photos;
-   // let navigate = useNavigate();
 
-    //To re-render if a user types a search term directly into the URL
+    //To re-render
     useEffect( () =>{
-       // let path = '';
         if (query){
             if (query !== title){
-               // path = `/search/${title}`;
-              //  navigate(path);
                 changeQuery(title);
             }
         }

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import {Routes, Route, Navigate} from 'react-router-dom';
-//Add in useRef if needed
 
 //Load components and key
 import Nav from './components/Nav.jsx'
@@ -36,7 +35,7 @@ function App() {
     }
 
   //Fetches images when query value changes - either search or button
-  //Sets state of photo array to returned image objects 
+  //Sets state of appropriate photo array to returned image objects 
   const fetchData = (searchText) =>{
     setLoading(true);
     let activeFetch = true;
