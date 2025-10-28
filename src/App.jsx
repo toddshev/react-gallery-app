@@ -70,12 +70,12 @@ function App() {
       {loading ? <p>Loading...</p> : undefined }
 
       <Routes>
-        <Route path="/" element={<Navigate to='/cats'></Navigate>} />
+        <Route path="/" element={<Navigate to= '/cats'></Navigate>} />
         <Route path= "cats" element={<PhotoList data= {catImg} title= 'cats' />} />
         <Route path="dogs" element={<PhotoList data= {dogImg} title= 'dogs' />} />
         <Route path="computers" element={<PhotoList data= {computerImg} title= 'computers' />} />
-        <Route path= "search/:query" element={<PhotoList data= {photos} title= {query}  />} /> 
-        <Route path ="/*" element={<NotFound />} />
+        <Route path= "search/:query" element={<PhotoList data= {photos} title= {query} changeQuery={changeQuery}  />} /> 
+        <Route path ="*" element={photos ? <NotFound /> : null } />                                 
       </Routes>
     </>
   )
